@@ -1,0 +1,34 @@
+vars:
+  dbURI: postgresql://user1:pass1@db/db1
+runs:
+  - id: db
+    ymlr-sql:
+      uri: ${$vars.dbURI}
+      opts:
+        client: pg
+  - name: Connected to "${$vars.dbURI.split('@')[1]}"
+  - loop: ${true}
+    runs:
+      - input: 
+          message: Enter query
+        vars: cmd
+      - if: ${$vars.cmd?.length}
+        js: |
+          const cmd = $vars.cmd
+          const args = []
+          if (cmd.startsWith('clear')) return console.clear()
+          const rs = await $vars.db.$.client.raw(cmd, ...args)
+          let result = {}
+          switch(rs.command) {
+            case 'INSERT':
+            case 'UPDATE':
+            case 'DELETE':
+              result = `${rs.rowCount} rows are affected`
+              break;
+            case 'SELECT':
+              result = rs.rows
+              break;
+            default: 
+              result = rs
+          }
+          this.logger.info('%O', result)

@@ -1,0 +1,13 @@
+- tag'register:
+    ymlr-sql: ../src/index
+
+- name: Publish a message
+  ymlr-sql:
+    uri: ${$vars.dbURI}
+    opts:
+      client: pg
+    runs:
+      - ymlr-sql'query:
+          query: select * from a where rd = ?
+          params:
+            - 1
