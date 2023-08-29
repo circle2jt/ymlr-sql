@@ -1,0 +1,25 @@
+vars:
+  dbURI: postgresql://user1:pass1@db/db1
+runs:
+  - tag'register:
+      ymlr-sql: /workspaces/app/dist
+  - id: db
+    ymlr-sql:
+      uri: ${$vars.dbURI}
+      opts:
+        client: pg
+  - name: Connected to "${$vars.dbURI.split('@')[1]}"
+  - loop: ${true}
+    runs:
+      - input: 
+          message: Enter query
+        vars: cmd
+      - force: true
+        if: ${$vars.cmd?.length}
+        js: |
+          const cmd = $vars.cmd
+          const args = []
+          if (cmd.startsWith('clear')) return console.clear()
+          console.log($vars.db.$)
+          const rs = await $vars.db.$.client.raw(cmd, ...args)
+          this.logger.info('%O', rs)

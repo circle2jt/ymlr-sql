@@ -1,0 +1,48 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: test
+
+on:
+  push:
+    branches:
+      - '**'
+    paths:
+      - src/**
+      - package.json
+      - tsconfig.*
+jobs:
+  test:
+    name: Testing
+    runs-on: ubuntu-latest
+    services:
+      db:
+        image: postgres
+        env:
+          POSTGRES_USER: user1
+          POSTGRES_PASSWORD: pass1
+          POSTGRES_DB: db1
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -d db1"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: current
+          cache: yarn
+      - run: yarn install --frozen-lockfile
+      - run: yarn ci:test
+        env:
+          DB_URI: postgresql://user1:pass1@localhost/db1
+
+      - name: Create a new tag
+        run: yarn ci:tag
+        env:
+          GITHUBTOKEN: ${{ secrets.GIT_TOKEN }}
+          LASTCOMMITSHA: ${{ github.SHA }}
