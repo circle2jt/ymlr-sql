@@ -1,10 +1,10 @@
 import assert from 'assert'
-import knex, { Knex } from 'knex'
-import { ElementProxy } from 'ymlr/src/components/element-proxy'
-import { Element } from 'ymlr/src/components/element.interface'
-import { Group } from 'ymlr/src/components/group/group'
-import { GroupItemProps, GroupProps } from 'ymlr/src/components/group/group.props'
-import { SqlProps } from './sql.props'
+import knex, { type Knex } from 'knex'
+import { type ElementProxy } from 'ymlr/src/components/element-proxy'
+import { type Element } from 'ymlr/src/components/element.interface'
+import { type Group } from 'ymlr/src/components/group/group'
+import { type GroupItemProps, type GroupProps } from 'ymlr/src/components/group/group.props'
+import { type SqlProps } from './sql.props'
 
 export type OnMessageTextCallback = (channel: string, message: string) => any
 export type OnPMessageTextCallback = (pattern: string, channel: string, message: string) => any

@@ -1,5 +1,5 @@
 import { join } from 'path'
-import { ElementProxy } from 'ymlr/src/components/element-proxy'
+import { type ElementProxy } from 'ymlr/src/components/element-proxy'
 import { Group } from 'ymlr/src/components/group/group'
 import { Testing } from 'ymlr/src/testing'
 import { Sql } from './sql'

@@ -1,6 +1,6 @@
-import { Knex } from 'knex'
-import { ElementProxy } from 'ymlr/src/components/element-proxy'
-import { Sql } from './sql'
+import { type Knex } from 'knex'
+import { type ElementProxy } from 'ymlr/src/components/element-proxy'
+import { type Sql } from './sql'
 
 export interface SqlQueryProps {
   sql?: ElementProxy<Sql>

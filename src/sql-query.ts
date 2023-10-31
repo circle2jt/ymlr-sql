@@ -1,9 +1,9 @@
 import assert from 'assert'
-import { Knex } from 'knex'
-import { ElementProxy } from 'ymlr/src/components/element-proxy'
-import { Element } from 'ymlr/src/components/element.interface'
+import { type Knex } from 'knex'
+import { type ElementProxy } from 'ymlr/src/components/element-proxy'
+import { type Element } from 'ymlr/src/components/element.interface'
 import { Sql } from './sql'
-import { SqlQueryProps } from './sql-query.props'
+import { type SqlQueryProps } from './sql-query.props'
 
 /** |**  ymlr-sql'query
   Execute a sql query
@@ -87,7 +87,7 @@ export class SqlQuery implements Element {
         sql.logger = this.proxy.logger
         await this.sql.exec(parentState)
       } else {
-        sql = await this.proxy.getParentByClassName<Sql>(Sql)
+        sql = this.proxy.getParentByClassName<Sql>(Sql)
       }
     }
     assert(sql, '"uri" is required OR "ymlr-sql\'query" only be used in "ymlr-sql"')
