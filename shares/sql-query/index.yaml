@@ -2,6 +2,7 @@ vars:
   dbURI: postgresql://user1:pass1@db/db1
 runs:
   - id: db
+    detach: true
     ymlr-sql:
       uri: ${$vars.dbURI}
       opts:
@@ -9,7 +10,7 @@ runs:
   - name: Connected to "${$vars.dbURI.split('@')[1]}"
   - loop: ${true}
     runs:
-      - input: 
+      - input:
           message: Enter query
         vars: cmd
       - if: ${$vars.cmd?.length}

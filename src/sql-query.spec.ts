@@ -5,6 +5,7 @@ import { Testing } from 'ymlr/src/testing'
 import { Sql } from './sql'
 
 let sql: ElementProxy<Sql>
+let tableName = ''
 
 beforeEach(async () => {
   await Testing.reset()
@@ -17,11 +18,12 @@ beforeEach(async () => {
     }
   })
   await sql.exec()
-  await sql.$.client?.raw('create table a ( rd int )')
+  tableName = `Test${Date.now().toString()}`
+  await sql.$.client?.raw(`create table ${tableName} ( rd int )`)
 })
 
 afterEach(async () => {
-  await sql.$.client?.raw('drop table a')
+  await sql.$.client?.raw(`drop table ${tableName}`)
   await sql.$.stop()
 })
 
@@ -35,7 +37,7 @@ test('execute query', async () => {
           opts: {
             client: 'pg'
           },
-          query: 'INSERT INTO a(rd) VALUES(?)',
+          query: `INSERT INTO ${tableName}(rd) VALUES(?)`,
           params: [1]
         },
         vars: 'rs'
@@ -59,7 +61,7 @@ test('execute query - used in "ymlr-sql"', async () => {
           },
           runs: [{
             'ymlr-sql\'query': {
-              query: 'INSERT INTO a(rd) VALUES(?)',
+              query: `INSERT INTO ${tableName}(rd) VALUES(?)`,
               params: [1]
             },
             vars: 'rs'

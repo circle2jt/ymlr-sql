@@ -96,10 +96,8 @@ export class SqlQuery implements Element {
   }
 
   async stop() {
-    if (this.uri) {
-      await this.sql?.$.stop()
-      this.sql = undefined
-    }
+    await this.sql?.$.stop()
+    this.sql = undefined
   }
 
   async dispose() {

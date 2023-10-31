@@ -3,6 +3,7 @@ import { Testing } from 'ymlr/src/testing'
 import { Sql } from './sql'
 
 let sql: ElementProxy<Sql>
+let tableName = ''
 
 beforeEach(async () => {
   await Testing.reset()
@@ -13,39 +14,40 @@ beforeEach(async () => {
     }
   })
   await sql.exec()
-  await sql.$.client?.raw('create table a ( rd int )')
+  tableName = `Test${Date.now().toString()}`
+  await sql.$.client?.raw(`create table ${tableName} ( rd int )`)
 })
 
 afterEach(async () => {
-  await sql.$.client?.raw('drop table a')
-  await sql.$.stop()
+  await sql.$.client?.raw(`drop table ${tableName}`)
+  await sql.dispose()
 })
 
 test('test CRUD data', async () => {
   const sqlExample: any = await Testing.createElementProxy(Sql, {
-    client: sql.$.client,
+    uri: process.env.DB_URI,
     runs: [{
       js: `
-        const rs = await $parentState.sqlCtx.raw('INSERT INTO a(rd) VALUES(?)', 1);
+        const rs = await $parentState.sqlCtx.raw('INSERT INTO ${tableName}(rd) VALUES(?)', 1);
         return rs
       `,
       vars: 'add'
     },
     {
       js: `
-        const rs = await $parentState.sqlCtx.raw('SELECT * FROM a');
+        const rs = await $parentState.sqlCtx.raw('SELECT * FROM ${tableName}');
         return rs
       `,
       vars: 'sel'
     }, {
       js: `
-        const rs = await $parentState.sqlCtx.raw('UPDATE a SET rd = ?', 2);
+        const rs = await $parentState.sqlCtx.raw('UPDATE ${tableName} SET rd = ?', 2);
         return rs
       `,
       vars: 'edit'
     }, {
       js: `
-        const rs = await $parentState.sqlCtx.raw('DELETE FROM a WHERE rd = ?', 2);
+        const rs = await $parentState.sqlCtx.raw('DELETE FROM ${tableName} WHERE rd = ?', 2);
         return rs
       `,
       vars: 'del'
