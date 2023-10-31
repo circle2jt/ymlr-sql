@@ -10,13 +10,7 @@ ymlr-sql for ymlr plugin
 
 | Tags | Description |
 |---|---|
-| [ymlr-sql](#ymlr-sql) | Declare a sql connection
-Supported drivers:  
-[-] postgresql:           ['pg', 'pg-native']  
-[-] sqlite:               ['sqlite3', 'better-sqlite3']  
-[-] mysql:                ['mysql', 'mysql2']  
-[-] oracle:               ['oracledb']  
-[-] microsoft sql server: ['tedious']   |
+| [ymlr-sql](#ymlr-sql) | Declare a sql connection |
 | [ymlr-sql'query](#ymlr-sql'query) | Execute a sql query |
 
 
@@ -24,12 +18,12 @@ Supported drivers:
 ## <a id="ymlr-sql"></a>ymlr-sql  
   
 Declare a sql connection
-Supported drivers:  
-[-] postgresql:           ['pg', 'pg-native']  
-[-] sqlite:               ['sqlite3', 'better-sqlite3']  
-[-] mysql:                ['mysql', 'mysql2']  
-[-] oracle:               ['oracledb']  
-[-] microsoft sql server: ['tedious']    
+Supported drivers:
+[-] postgresql:           ['pg', 'pg-native']
+[-] sqlite:               ['sqlite3', 'better-sqlite3']
+[-] mysql:                ['mysql', 'mysql2']
+[-] oracle:               ['oracledb']
+[-] microsoft sql server: ['tedious']  
 
 Example:  
 

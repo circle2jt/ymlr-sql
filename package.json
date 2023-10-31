@@ -1,6 +1,6 @@
 {
   "name": "ymlr-sql",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Handle sql query into ymlr platform",
   "main": "src/index.js",
   "types": "src/index.d.ts",
